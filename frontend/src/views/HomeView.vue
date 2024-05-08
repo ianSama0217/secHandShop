@@ -23,6 +23,7 @@ import productCard from "@/components/product/productCard.vue";
 <style scoped lang="scss">
 .main {
   display: flex;
+  margin-top: 0.5rem;
 
   .product-area {
     display: flex;
@@ -31,7 +32,6 @@ import productCard from "@/components/product/productCard.vue";
 
     .searchbar {
       position: relative;
-      border: 0px solid green;
       width: 40vw;
       height: 5vh;
 

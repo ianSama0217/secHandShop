@@ -1,12 +1,24 @@
-<script setup></script>
+<script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const turnToHome = () => {
+  router.push({ name: "home" });
+};
+
+const turnToLogin = () => {
+  router.push({ name: "login" });
+};
+</script>
 
 <template>
   <section class="navbar">
-    <div class="logo">
+    <div class="logo" @click="turnToHome()">
       <i class="fa-brands fa-shopify"></i>
       <span>二手拍賣網</span>
     </div>
-    <div class="login">
+    <div class="login" @click="turnToLogin()">
       <div class="border">
         <i class="fa-regular fa-circle-user icon"></i>
         <span>會員登入</span>
@@ -22,16 +34,21 @@
   display: flex;
   justify-content: space-between;
   padding: 0 1rem;
-  margin-bottom: 0.5rem;
 
   .logo {
     display: flex;
     align-items: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+
     .fa-shopify {
       color: #5bbcff;
       font-size: 3rem;
       margin-right: 0.5rem;
     }
+
     span {
       color: #5bbcff;
       font-size: 1.8rem;
@@ -46,11 +63,10 @@
       display: flex;
       align-items: center;
       padding: 0.2rem 0.5rem;
-      transition: all 0.3s ease;
 
       &:hover {
         cursor: pointer;
-        border: 2px solid #777;
+        outline: 2px solid #777;
         border-radius: 8px;
       }
     }

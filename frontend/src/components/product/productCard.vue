@@ -8,7 +8,7 @@ const props = defineProps({
 <template>
   <section class="productCard">
     <div class="overlay"></div>
-    <img class="photo" src="../../../public/testImg/test02.jpg" alt="" />
+    <img class="photo" src="../../../public/testImg/test01.jpg" alt="" />
     <div class="infobar">
       <span class="bold f-base">TWD{{ price }}</span>
       <i class="fa-solid fa-cart-shopping"></i>
