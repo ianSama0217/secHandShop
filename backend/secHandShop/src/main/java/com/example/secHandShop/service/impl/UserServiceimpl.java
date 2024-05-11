@@ -88,6 +88,7 @@ public class UserServiceimpl implements UserService {
 			return new LoginRes(RtnMsg.PASSWORD_ERROR);
 		}
 
+		user.setPwd("");
 		return new LoginRes(RtnMsg.SUCCESSFUL, user);
 	}
 

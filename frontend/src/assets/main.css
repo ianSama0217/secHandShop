@@ -10,6 +10,20 @@
   margin-right: 0.2rem;
 }
 
+.icon-btn {
+  font-size: 1.5rem;
+  color: #777;
+}
+
+.icon-btn:hover {
+  font-weight: bold;
+}
+
+.icon-link {
+  font-size: 1.2rem;
+  margin-right: 0.2rem;
+}
+
 .f-base {
   font-size: 1.2rem;
 }

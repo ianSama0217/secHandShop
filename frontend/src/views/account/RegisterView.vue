@@ -1,13 +1,96 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
+import api from "../../api/index.js";
 
 const router = useRouter();
+const { register } = api;
 
 const isDisplay = ref(true);
 const inputType = ref("password");
 const isDisplay2 = ref(true);
 const inputType2 = ref("password");
+
+const name = ref("");
+const phone = ref("");
+const email = ref("");
+const pwd = ref("");
+const pwd2 = ref("");
+
+const registerHandler = async () => {
+  if (pwd.value != pwd2.value) {
+    Swal.fire({
+      title: "請確認密碼輸入是否一致",
+      icon: "warning",
+      confirmButtonText: "確認",
+    });
+  } else {
+    let registerReq = {
+      name: name.value,
+      phone: phone.value,
+      email: email.value,
+      password: pwd.value,
+    };
+
+    const registerRes = await register(registerReq);
+    switch (registerRes) {
+      case "PARAM_ERROR":
+        Swal.fire({
+          title: "請確認所有欄位是否輸入",
+          icon: "warning",
+          confirmButtonText: "確認",
+        });
+        break;
+      case "EMAIL_IS_EXISTED":
+        Swal.fire({
+          title: "該信箱已註冊",
+          icon: "warning",
+          confirmButtonText: "確認",
+        });
+        break;
+      case "PHONE_FORMAT_ERROR":
+        Swal.fire({
+          title: "請確認手機號碼格式是否正確",
+          icon: "warning",
+          confirmButtonText: "確認",
+        });
+        break;
+      case "EMAIL_FORMAT_ERROR":
+        Swal.fire({
+          title: "請確認信箱格式是否正確",
+          icon: "warning",
+          confirmButtonText: "確認",
+        });
+        break;
+      case "PASSWORD_FORMAT_ERROR":
+        Swal.fire({
+          title: "請確認密碼格式是否正確\n",
+          text: "需含英數字\r至少8個字元",
+          icon: "warning",
+          confirmButtonText: "確認",
+        });
+        break;
+      case "REGISTER_ERROR":
+        Swal.fire({
+          title: "系統異常\r請稍後再試",
+          icon: "error",
+          confirmButtonText: "確認",
+        });
+        break;
+      case "SUCCESSFUL":
+        Swal.fire({
+          title: "註冊成功",
+          text: "點擊確認以跳轉至登入畫面",
+          icon: "success",
+          confirmButtonText: "確認",
+        }).then(() => {
+          router.push({ name: "login" });
+        });
+        break;
+    }
+  }
+};
 
 const showPwd = () => {
   isDisplay.value = !isDisplay.value;
@@ -19,6 +102,10 @@ const showPwd2 = () => {
   isDisplay2.value
     ? (inputType2.value = "password")
     : (inputType2.value = "text");
+};
+
+const turnToHome = () => {
+  router.push({ name: "home" });
 };
 </script>
 
@@ -33,19 +120,24 @@ const showPwd2 = () => {
       <span class="title">帳號申請</span>
       <div class="inputbar">
         <i class="fa-regular fa-user input-icon"></i>
-        <input type="text" placeholder="請輸入使用者名稱" />
+        <input v-model.trim="name" type="text" placeholder="請輸入使用者名稱" />
       </div>
       <div class="inputbar">
         <i class="fa-solid fa-mobile-screen-button input-icon"></i>
-        <input type="text" placeholder="請輸入手機號碼" />
+        <input v-model.trim="phone" type="text" placeholder="請輸入手機號碼" />
       </div>
       <div class="inputbar">
         <i class="fa-regular fa-envelope input-icon"></i>
-        <input type="text" placeholder="請輸入信箱" />
+        <input v-model.trim="email" type="text" placeholder="請輸入信箱" />
       </div>
       <div class="inputbar">
         <i class="fa-solid fa-unlock-keyhole input-icon"></i>
-        <input :type="inputType" class="input-pwd" placeholder="請輸入密碼" />
+        <input
+          :type="inputType"
+          v-model.trim="pwd"
+          class="input-pwd"
+          placeholder="請輸入密碼(需含英數字至少8字元)"
+        />
         <i v-if="isDisplay" @click="showPwd()" class="fa-regular fa-eye"></i>
         <i
           v-if="!isDisplay"
@@ -56,6 +148,7 @@ const showPwd2 = () => {
       <div class="inputbar">
         <i class="fa-solid fa-unlock-keyhole input-icon"></i>
         <input
+          v-model.trim="pwd2"
           :type="inputType2"
           class="input-pwd"
           placeholder="請再次輸入密碼"
@@ -67,7 +160,12 @@ const showPwd2 = () => {
           class="fa-regular fa-eye-slash"
         ></i>
       </div>
-      <button type="button" class="register btn">註冊</button>
+      <button @click="registerHandler()" type="button" class="register btn">
+        註冊
+      </button>
+      <button @click="turnToHome()" type="button" class="back-home btn">
+        返回首頁
+      </button>
     </div>
   </section>
 </template>
@@ -79,7 +177,7 @@ const showPwd2 = () => {
   .login-area {
     background-color: #ffffff;
     width: 30vw;
-    height: 60vh;
+    height: 70vh;
     box-shadow: 0 8px 6px -6px #777;
     border-radius: 8px;
     display: flex;
@@ -118,9 +216,10 @@ const showPwd2 = () => {
       }
     }
 
-    .register {
+    .register,
+    .back-home {
       width: 80%;
-      height: 10%;
+      height: 8%;
       font-size: 1rem;
       color: white;
       background-color: #5bbcff;
