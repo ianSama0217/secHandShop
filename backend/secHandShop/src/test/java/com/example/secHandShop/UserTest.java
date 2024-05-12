@@ -11,22 +11,22 @@ import com.example.secHandShop.repository.UserDao;
 public class UserTest {
 
 	@Autowired
-	private UserDao userDao;
+	private UserDao dao;
 
 	@Test
 	public void findAccountTest() {
 		User user = new User();
 
-		// ±b¸¹¤£¦s¦b
-		user = userDao.findAccount("jk666@email.com");
+		// å¸³è™Ÿä¸å­˜åœ¨
+		user = dao.findAccount("jk666@email.com");
 		if (user == null) {
-			System.out.println("±b¸¹¤£¦s¦b");
+			System.out.println("å¸³è™Ÿä¸å­˜åœ¨");
 		}
 
-		// ±b¸¹¦s¦b
-		user = userDao.findAccount("ian123@gmail.com");
+		// å¸³è™Ÿå­˜åœ¨
+		user = dao.findAccount("ian123@gmail.com");
 		if (user != null) {
-			System.out.println("«H½c:" + user.getEmail() + "\n±K½X:" + user.getPwd());
+			System.out.println("å¸³è™Ÿ:" + user.getEmail() + "\nå¯†ç¢¼:" + user.getPwd());
 		}
 	}
 }

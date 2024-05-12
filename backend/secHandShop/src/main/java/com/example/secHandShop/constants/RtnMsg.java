@@ -16,6 +16,15 @@ public enum RtnMsg {
 	ACCOUNT_NOT_FOUND(400, "Account not found!"), //
 	PASSWORD_ERROR(400, "Password error!"), //
 	LOGIN_ERROR(500, "Login error!"), //
+	// 搜尋商品
+	// 取得商品資料
+	PRODUCT_NOT_FOUND(400, "Product not found!"), //
+	// 創建商品
+	CREATE_PRODUCT_ERROR(500, "Create product error!"), //
+	// 刪除商品
+	DELETE_PRODUCT_ERROR(500, "Delete product error!"), //
+	// 更新商品
+	UPDATE_PRODUCT_ERROR(500, "Update product error!"), //
 	;
 
 	private int stateCode;

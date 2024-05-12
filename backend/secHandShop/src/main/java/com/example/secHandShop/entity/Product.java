@@ -35,6 +35,9 @@ public class Product {
 	@Column(name = "inventory")
 	private int inventory;
 
+	@Column(name = "sell_count")
+	private int sellCount;
+
 	@Column(name = "update_time")
 	private LocalDateTime updateTime;
 
@@ -49,7 +52,7 @@ public class Product {
 	}
 
 	public Product(int productId, String name, String description, int type, byte[] photo, int price, int inventory,
-			LocalDateTime updateTime, int state, int sellerId) {
+			int sellCount, LocalDateTime updateTime, int state, int sellerId) {
 		super();
 		this.productId = productId;
 		this.name = name;
@@ -58,6 +61,7 @@ public class Product {
 		this.photo = photo;
 		this.price = price;
 		this.inventory = inventory;
+		this.sellCount = sellCount;
 		this.updateTime = updateTime;
 		this.state = state;
 		this.sellerId = sellerId;
@@ -117,6 +121,14 @@ public class Product {
 
 	public void setInventory(int inventory) {
 		this.inventory = inventory;
+	}
+
+	public int getSellCount() {
+		return sellCount;
+	}
+
+	public void setSellCount(int sellCount) {
+		this.sellCount = sellCount;
 	}
 
 	public LocalDateTime getUpdateTime() {
