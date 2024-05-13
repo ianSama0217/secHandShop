@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import com.example.secHandShop.constants.RtnMsg;
 import com.example.secHandShop.entity.Product;
 import com.example.secHandShop.repository.ProductDao;
+import com.example.secHandShop.repository.UserDao;
 import com.example.secHandShop.service.ifs.ProductService;
 import com.example.secHandShop.vo.BasicRes;
 import com.example.secHandShop.vo.ProductRes;
@@ -21,9 +22,11 @@ public class ProductServiceimpl implements ProductService {
 	@Autowired
 	private ProductDao productDao;
 
-	private boolean checkProduct(String name, String description, int type, int price, int inventory, int state) {
-		if (!StringUtils.hasText(name) || !StringUtils.hasText(description) || type == -1 || price < 0 || inventory < 0
-				|| state == -1) {
+	@Autowired
+	private UserDao userDao;
+
+	private boolean checkProduct(String name, int type, int price, int inventory, int state) {
+		if (!StringUtils.hasText(name) || type == -1 || price < 0 || inventory < 0 || state == -1) {
 			return true;
 		}
 
@@ -50,8 +53,8 @@ public class ProductServiceimpl implements ProductService {
 
 	@Override
 	public BasicRes create(Product product) {
-		if (checkProduct(product.getName(), product.getDescription(), product.getType(), product.getPrice(),
-				product.getInventory(), product.getState())) {
+		if (checkProduct(product.getName(), product.getType(), product.getPrice(), product.getInventory(),
+				product.getState())) {
 			return new BasicRes(RtnMsg.PARAM_ERROR);
 		}
 
@@ -82,13 +85,22 @@ public class ProductServiceimpl implements ProductService {
 	public BasicRes update(Product product) {
 		// TODO 若商品訂單位未完成無法更改狀態
 		try {
-			productDao.updateProduct(product.getProductId(), product.getName(), product.getDescription(),
-					product.getType(), product.getPhoto(), product.getPrice(), product.getInventory(),
-					product.getState());
+			productDao.updateProduct(product.getProductId(), product.getName(), product.getType(), product.getPhoto(),
+					product.getPrice(), product.getInventory(), product.getState());
 		} catch (Exception e) {
 			return new BasicRes(RtnMsg.UPDATE_PRODUCT_ERROR);
 		}
 		return new BasicRes(RtnMsg.SUCCESSFUL);
+	}
+
+	@Override
+	public ProductRes getStore(int userId) {
+		if (!userDao.existsById(userId)) {
+			return new ProductRes(RtnMsg.STORE_NOT_FOUND);
+		}
+
+		List<Product> productList = productDao.getStoreProduct(userId);
+		return new ProductRes(RtnMsg.SUCCESSFUL, productList);
 	}
 
 }

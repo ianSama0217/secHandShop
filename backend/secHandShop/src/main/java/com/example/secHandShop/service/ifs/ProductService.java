@@ -16,4 +16,6 @@ public interface ProductService {
 	public BasicRes delete(int productId);
 
 	public BasicRes update(Product product);
+
+	public ProductRes getStore(int userId);
 }

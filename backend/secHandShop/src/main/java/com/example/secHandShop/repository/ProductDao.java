@@ -41,15 +41,19 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 	@Transactional
 	@Query(value = "UPDATE product"//
 			+ " SET name = :name,"//
-			+ " description = :description,"//
 			+ " type = :type,"//
 			+ " photo = :photo,"//
 			+ " price = :price,"//
 			+ " inventory = :inventory,"//
 			+ " state = :state"//
 			+ " WHERE product_id = :id", nativeQuery = true)
-	public int updateProduct(@Param("id") int productId, @Param("name") String name,
-			@Param("description") String description, @Param("type") int type, @Param("photo") byte[] photo,
-			@Param("price") int price, @Param("inventory") int inventory, @Param("state") int state);
+	public int updateProduct(@Param("id") int productId, @Param("name") String name, @Param("type") int type,
+			@Param("photo") byte[] photo, @Param("price") int price, @Param("inventory") int inventory,
+			@Param("state") int state);
 
+//使用user_id查詢該使用者的所有商品
+	@Query(value = "SELECT * FROM product"//
+			+ " WHERE seller_id = :id"//
+			+ " ORDER BY product_id DESC", nativeQuery = true)
+	public List<Product> getStoreProduct(@Param("id") int userId);
 }

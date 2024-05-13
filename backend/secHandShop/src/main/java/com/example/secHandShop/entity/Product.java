@@ -20,9 +20,6 @@ public class Product {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "description")
-	private String description;
-
 	@Column(name = "type")
 	private int type;
 
@@ -51,12 +48,11 @@ public class Product {
 		super();
 	}
 
-	public Product(int productId, String name, String description, int type, byte[] photo, int price, int inventory,
-			int sellCount, LocalDateTime updateTime, int state, int sellerId) {
+	public Product(int productId, String name, int type, byte[] photo, int price, int inventory, int sellCount,
+			LocalDateTime updateTime, int state, int sellerId) {
 		super();
 		this.productId = productId;
 		this.name = name;
-		this.description = description;
 		this.type = type;
 		this.photo = photo;
 		this.price = price;
@@ -81,14 +77,6 @@ public class Product {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public int getType() {

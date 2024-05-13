@@ -55,4 +55,10 @@ public class ProductController {
 	public BasicRes update(@RequestBody Product product) {
 		return productService.update(product);
 	}
+
+	// 查詢使用者的所有商品
+	@GetMapping(value = "/store/{id}")
+	public ProductRes getStore(@PathVariable(name = "id") int userId) {
+		return productService.getStore(userId);
+	}
 }

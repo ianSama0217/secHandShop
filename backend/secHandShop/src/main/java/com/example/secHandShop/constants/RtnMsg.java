@@ -25,6 +25,8 @@ public enum RtnMsg {
 	DELETE_PRODUCT_ERROR(500, "Delete product error!"), //
 	// 更新商品
 	UPDATE_PRODUCT_ERROR(500, "Update product error!"), //
+	// 取得店家商品資料
+	STORE_NOT_FOUND(400, "Store not found!"), //
 	;
 
 	private int stateCode;
