@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
 .icon {
   font-size: 1.8rem;
   margin-right: 0.2rem;
@@ -37,6 +42,18 @@
   font-weight: bold;
 }
 
+.title-base {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.hint-font {
+  color: #e65e5e;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1rem auto;
+}
+
 .bg-container {
   width: 100%;
   height: 90vh;
@@ -67,5 +84,20 @@
 }
 
 .btn:hover {
+  cursor: pointer;
+}
+
+.base-btn {
+  text-decoration: none;
+  border: none;
+  border-radius: 8px;
+  width: 12vw;
+  height: 3vw;
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: #f0f0f0;
+}
+
+.base-btn:hover {
   cursor: pointer;
 }

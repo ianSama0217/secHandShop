@@ -2,10 +2,10 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import api from "../api/index.js";
+import { userApi } from "@/api";
 
 const router = useRouter();
-const { logout } = api;
+const { logout } = userApi;
 
 const user = JSON.parse(sessionStorage.getItem("user"));
 

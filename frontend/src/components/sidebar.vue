@@ -14,6 +14,7 @@
 .sidebar {
   border: 1px solid red;
   width: 15vw;
+  min-height: 80vh;
   margin-right: 1rem;
 }
 </style>

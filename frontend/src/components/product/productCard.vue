@@ -1,17 +1,28 @@
 <script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const props = defineProps({
+  productId: Number,
+  name: String,
   photo: String,
   price: Number,
 });
+
+const turnToProduct = (id) => {
+  router.push(`/product/${id}`);
+};
 </script>
 
 <template>
   <section class="productCard">
-    <div class="overlay"></div>
-    <img class="photo" src="../../../public/testImg/test01.jpg" alt="" />
+    <div class="overlay" :title="name" @click="turnToProduct(productId)"></div>
+    <img class="photo" :src="photo" :alt="name" />
     <div class="infobar">
-      <span class="bold f-base">TWD{{ price }}</span>
-      <i class="fa-solid fa-cart-shopping"></i>
+      <i class="fa-solid fa-dollar-sign"
+        ><span class="bold f-base">{{ price }}</span></i
+      >
+      <i class="fa-solid fa-cart-shopping f-base" title="加入購物車"></i>
     </div>
   </section>
 </template>
@@ -66,6 +77,7 @@ const props = defineProps({
     border-radius: 8px;
 
     .fa-cart-shopping {
+      z-index: 10;
       transition: all 0.3s ease;
       &:hover {
         scale: 1.15;

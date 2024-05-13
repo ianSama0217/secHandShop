@@ -2,10 +2,10 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import api from "../../api/index.js";
+import { userApi } from "@/api";
 
 const router = useRouter();
-const { login } = api;
+const { login } = userApi;
 
 const isDisplay = ref(true);
 const inputType = ref("password");

@@ -1,6 +1,19 @@
 <script setup>
+import { onMounted, ref } from "vue";
 import sidebar from "@/components/sidebar.vue";
 import productCard from "@/components/product/productCard.vue";
+import { productApi } from "@/api";
+
+const { search } = productApi;
+let productList = ref([]);
+
+const searchHandler = async (name, type, lowPrice, highPrice, sort) => {
+  productList.value = await search(name, type, lowPrice, highPrice, sort);
+};
+
+onMounted(() => {
+  searchHandler(null, null, null, null, null);
+});
 </script>
 
 <template>
@@ -12,8 +25,16 @@ import productCard from "@/components/product/productCard.vue";
         <i class="fa-solid fa-magnifying-glass"></i>
       </div>
       <div class="card-area">
-        <div v-for="item in 20">
-          <productCard></productCard>
+        <span class="hint-font" v-if="productList.length == 0"
+          >找不到相關商品 請再次確認</span
+        >
+        <div v-for="item in productList">
+          <productCard
+            :productId="item.productId"
+            :name="item.name"
+            :photo="item.photo"
+            :price="item.price"
+          ></productCard>
         </div>
       </div>
     </div>
