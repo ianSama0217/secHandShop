@@ -41,6 +41,10 @@ const reduceBuyQuantity = () => {
   buyQuantity.value--;
 };
 
+const turnToBack = () => {
+  window.history.back();
+};
+
 onMounted(() => {
   const productId = useRoute().params.id;
   getProductHandler(productId);
@@ -138,6 +142,9 @@ onMounted(() => {
       </div>
 
       <div class="btn-bar">
+        <button @click="turnToBack()" type="button" class="base-btn back">
+          返回前頁
+        </button>
         <button type="button" class="base-btn buy">立即購買</button>
         <button type="button" class="base-btn add-cart">加入購物車</button>
         <button type="button" class="base-btn send-msg">
@@ -155,6 +162,7 @@ onMounted(() => {
   display: flex;
 
   .img-container {
+    align-self: center;
     width: 30vw;
     height: 30vw;
     margin-right: 1rem;
@@ -227,6 +235,11 @@ onMounted(() => {
     .btn-bar {
       display: flex;
       justify-content: space-between;
+      width: 50vw;
+
+      .back {
+        background-color: #a1a1a1;
+      }
 
       .buy {
         background-color: #ff3d3d;

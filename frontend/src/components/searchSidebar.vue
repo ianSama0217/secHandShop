@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <section class="sidebar">
+  <section class="searchSidebar">
     <ul>
       <li>漫畫</li>
       <li>科幻小說</li>
@@ -11,7 +11,7 @@
 </template>
 
 <style scoped lang="scss">
-.sidebar {
+.searchSidebar {
   border: 1px solid red;
   width: 15vw;
   min-height: 80vh;

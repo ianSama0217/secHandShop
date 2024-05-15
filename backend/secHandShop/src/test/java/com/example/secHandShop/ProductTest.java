@@ -16,6 +16,14 @@ public class ProductTest {
 	private ProductDao dao;
 
 	@Test
+	public void searchTest() {
+		List<Product> res = dao.search(2, null, null, null, null, null);
+		for (Product p : res) {
+			System.out.println("name: " + p.getName());
+		}
+	}
+
+	@Test
 	public void updateStateTest() {
 		int res = dao.updateState(99);
 		System.out.println("res: " + res);

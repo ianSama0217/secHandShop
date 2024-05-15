@@ -24,12 +24,13 @@ public class ProductController {
 
 	// 查詢商品
 	@GetMapping(value = "/product")
-	public ProductRes search(@RequestParam(name = "name", required = false) String name,
+	public ProductRes search(@RequestParam(name = "userId", required = false) Integer userId,
+			@RequestParam(name = "name", required = false) String name,
 			@RequestParam(name = "type", required = false) Integer type,
 			@RequestParam(name = "lowPrice", required = false) Integer lowPrice,
 			@RequestParam(name = "highPrice", required = false) Integer highPrice,
 			@RequestParam(name = "sort", required = false) String sort) {
-		return productService.search(name, type, lowPrice, highPrice, sort);
+		return productService.search(userId, name, type, lowPrice, highPrice, sort);
 	}
 
 	// 取得指定商品資訊(單筆)

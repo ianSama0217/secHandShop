@@ -38,6 +38,10 @@ const turnToHome = () => {
 const turnToLogin = () => {
   router.push({ name: "login" });
 };
+
+const turnToStore = () => {
+  router.push({ name: "getStore", params: { id: user.userId } });
+};
 </script>
 
 <template>
@@ -64,7 +68,7 @@ const turnToLogin = () => {
       </div>
       <!-- 下拉選單 -->
       <div class="drop-list" v-if="isDisplay">
-        <div class="link">
+        <div class="link" @click="turnToStore()">
           <i class="fa-solid fa-store icon-link"></i>
           <span class="f-base">我的賣場</span>
         </div>
@@ -72,7 +76,7 @@ const turnToLogin = () => {
           <i class="fa-solid fa-gear icon-link"></i>
           <span class="f-base">帳號設定</span>
         </div>
-        <div class="link" @click="logoutHandler">
+        <div class="link" @click="logoutHandler()">
           <i class="fa-solid fa-arrow-right-from-bracket icon-link"></i>
           <span class="f-base">登出</span>
         </div>
@@ -116,6 +120,7 @@ const turnToLogin = () => {
     align-items: center;
 
     .border {
+      min-width: 10vw;
       display: flex;
       align-items: center;
       padding: 0.2rem 0.5rem;

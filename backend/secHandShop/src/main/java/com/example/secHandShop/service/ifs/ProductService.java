@@ -6,7 +6,7 @@ import com.example.secHandShop.vo.ProductRes;
 
 public interface ProductService {
 
-	public ProductRes search(String name, Integer type, Integer lowPrice, Integer highPrice, String sort);
+	public ProductRes search(Integer userId, String name, Integer type, Integer lowPrice, Integer highPrice, String sort);
 
 	public ProductRes getProduct(int productId);
 

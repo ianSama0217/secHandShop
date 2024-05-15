@@ -1,14 +1,27 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import sidebar from "@/components/sidebar.vue";
+import searchSidebar from "@/components/searchSidebar.vue";
 import productCard from "@/components/product/productCard.vue";
 import { productApi } from "@/api";
 
 const { search } = productApi;
-let productList = ref([]);
+let userId;
+const productList = ref([]);
 
 const searchHandler = async (name, type, lowPrice, highPrice, sort) => {
-  productList.value = await search(name, type, lowPrice, highPrice, sort);
+  if (sessionStorage.getItem("user")) {
+    userId = JSON.parse(sessionStorage.getItem("user")).userId;
+  } else {
+    userId = null;
+  }
+  productList.value = await search(
+    userId,
+    name,
+    type,
+    lowPrice,
+    highPrice,
+    sort
+  );
 };
 
 onMounted(() => {
@@ -18,7 +31,7 @@ onMounted(() => {
 
 <template>
   <section class="main">
-    <sidebar></sidebar>
+    <searchSidebar></searchSidebar>
     <div class="product-area">
       <div class="searchbar">
         <input type="search" />
@@ -32,7 +45,7 @@ onMounted(() => {
           <productCard
             :productId="item.productId"
             :name="item.name"
-            :photo="item.photo"
+            :photo="'data:image/png;base64,' + item.photo"
             :price="item.price"
           ></productCard>
         </div>

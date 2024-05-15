@@ -1,9 +1,12 @@
 import axios from "axios";
 
-const search = (name, type, lowPrice, highPrice, sort) => {
+const search = (userId, name, type, lowPrice, highPrice, sort) => {
   let url = `http://localhost:8080/product?`;
+  if (userId) {
+    url += `userId=${userId}`;
+  }
   if (name) {
-    url += `name=${name}`;
+    url += `&name=${name}`;
   }
   if (type) {
     url += `&type=${type}`;
@@ -49,7 +52,8 @@ const createProduct = (req) => {
     data: req,
   })
     .then((res) => {
-      console.log(res.data);
+      //console.log(res.data.rtnMsg);
+      return res.data.rtnMsg;
     })
     .catch((e) => {
       throw e;
@@ -61,7 +65,7 @@ const deleteProduct = (id) => {
   return axios
     .patch(`http://localhost:8080/product/delete?id=${id}`)
     .then((res) => {
-      console.log(res.data);
+      console.log(res.data.rtnMsg);
     })
     .catch((e) => {
       throw e;
@@ -76,7 +80,21 @@ const updateProduct = (req) => {
     data: req,
   })
     .then((res) => {
-      console.log(res.data);
+      //console.log(res.data.rtnMsg);
+      return res.data.rtnMsg;
+    })
+    .catch((e) => {
+      throw e;
+    });
+};
+
+//取得使用者販售商品資訊
+const getStore = (id) => {
+  return axios
+    .get(`http://localhost:8080/store/${id}`)
+    .then((res) => {
+      //console.log(res.data);
+      return res.data;
     })
     .catch((e) => {
       throw e;
@@ -89,4 +107,5 @@ export default {
   createProduct,
   deleteProduct,
   updateProduct,
+  getStore,
 };
