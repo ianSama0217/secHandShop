@@ -3,7 +3,7 @@ import { RouterView } from "vue-router";
 import navbar from "./components/navbar.vue";
 import linkBtn from "./components/linkBtn.vue";
 
-const user = JSON.parse(sessionStorage.getItem("user"));
+const user = JSON.parse(localStorage.getItem("user"));
 
 const turnToTop = () => {
   window.scroll({ top: 0, behavior: "smooth" });

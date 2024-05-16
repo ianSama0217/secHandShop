@@ -1,5 +1,7 @@
 package com.example.secHandShop.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,7 @@ import com.example.secHandShop.repository.UserDao;
 import com.example.secHandShop.service.ifs.UserService;
 import com.example.secHandShop.vo.BasicRes;
 import com.example.secHandShop.vo.LoginReq;
-import com.example.secHandShop.vo.LoginRes;
+import com.example.secHandShop.vo.UserRes;
 
 @Service
 public class UserServiceimpl implements UserService {
@@ -29,14 +31,21 @@ public class UserServiceimpl implements UserService {
 		return false;
 	}
 
+	private boolean checkUserInfo(String name, String phone) {
+		if (!StringUtils.hasText(name) || !StringUtils.hasText(phone)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	@Override
 	public BasicRes register(User user) {
-		if (checkAccount(user.getEmail(), user.getPwd()) || !StringUtils.hasText(user.getPhone())
-				|| !StringUtils.hasText(user.getName())) {
+		if (checkUserInfo(user.getName(), user.getPhone())) {
 			return new BasicRes(RtnMsg.PARAM_ERROR);
 		}
-		
-		if(userDao.existsByEmail(user.getEmail())) {
+
+		if (userDao.existsByEmail(user.getEmail())) {
 			return new BasicRes(RtnMsg.EMAIL_IS_EXISTED);
 		}
 
@@ -67,9 +76,9 @@ public class UserServiceimpl implements UserService {
 	}
 
 	@Override
-	public LoginRes login(LoginReq req) {
+	public UserRes login(LoginReq req) {
 		if (checkAccount(req.getEmail(), req.getPwd())) {
-			return new LoginRes(RtnMsg.PARAM_ERROR);
+			return new UserRes(RtnMsg.PARAM_ERROR);
 		}
 
 		User user = new User();
@@ -77,19 +86,48 @@ public class UserServiceimpl implements UserService {
 		try {
 			user = userDao.findAccount(req.getEmail());
 		} catch (Exception e) {
-			return new LoginRes(RtnMsg.LOGIN_ERROR);
+			return new UserRes(RtnMsg.LOGIN_ERROR);
 		}
 
 		if (user == null) {
-			return new LoginRes(RtnMsg.ACCOUNT_NOT_FOUND);
+			return new UserRes(RtnMsg.ACCOUNT_NOT_FOUND);
 		}
-		
-		if(!encoder.matches(req.getPwd(), user.getPwd())) {
-			return new LoginRes(RtnMsg.PASSWORD_ERROR);
+
+		if (!encoder.matches(req.getPwd(), user.getPwd())) {
+			return new UserRes(RtnMsg.PASSWORD_ERROR);
 		}
 
 		user.setPwd("");
-		return new LoginRes(RtnMsg.SUCCESSFUL, user);
+		return new UserRes(RtnMsg.SUCCESSFUL, user);
+	}
+
+	@Override
+	public BasicRes update(User user) {
+		if (checkUserInfo(user.getName(), user.getPhone())) {
+			return new BasicRes(RtnMsg.PARAM_ERROR);
+		}
+
+		try {
+			userDao.updateAccount(user.getUserId(), user.getName(), user.getMimeType(), user.getPhoto(),
+					user.getPhone());
+		} catch (Exception e) {
+			return new BasicRes(RtnMsg.UPDATE_ACCOUNT_ERROR);
+		}
+
+		return new BasicRes(RtnMsg.SUCCESSFUL);
+	}
+
+	@Override
+	public UserRes getUser(int userId) {
+		Optional<User> op = userDao.findById(userId);
+
+		if (op.isEmpty()) {
+			return new UserRes(RtnMsg.ACCOUNT_NOT_FOUND);
+		}
+
+		User user = op.get();
+		user.setPwd("");
+		return new UserRes(RtnMsg.SUCCESSFUL, user);
 	}
 
 }

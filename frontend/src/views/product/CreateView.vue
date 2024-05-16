@@ -27,11 +27,13 @@ const FileUploadHandler = (event) => {
 };
 
 const createProductHandler = async () => {
-  const userId = JSON.parse(sessionStorage.getItem("user")).userId;
-  let photo = imageSrc.value;
+  const userId = JSON.parse(localStorage.getItem("user")).userId;
+  let mime;
+  let base64;
 
-  if (photo) {
-    photo = photo.replace("data:image/png;base64,", "");
+  if (imageSrc.value) {
+    mime = imageSrc.value.split(";")[0].split(":")[1];
+    base64 = imageSrc.value.split(",")[1];
   }
 
   let createProductReq = {
@@ -40,7 +42,8 @@ const createProductHandler = async () => {
     price: price.value,
     inventory: inventory.value,
     state: state.value,
-    photo: photo,
+    mimeType: mime,
+    photo: base64,
     sellCount: 0,
     sellerId: userId,
   };

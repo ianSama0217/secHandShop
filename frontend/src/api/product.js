@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const search = (userId, name, type, lowPrice, highPrice, sort) => {
   let url = `http://localhost:8080/product?`;
@@ -23,10 +24,15 @@ const search = (userId, name, type, lowPrice, highPrice, sort) => {
   return axios
     .get(url)
     .then((res) => {
-      //console.log(res.data.productList);
+      // console.log(res.data.productList);
       return res.data.productList;
     })
     .catch((e) => {
+      Swal.fire({
+        title: "系統異常\r請稍後再試",
+        icon: "error",
+        confirmButtonText: "確認",
+      });
       throw e;
     });
 };
@@ -40,6 +46,11 @@ const getProduct = (id) => {
       return res.data;
     })
     .catch((e) => {
+      Swal.fire({
+        title: "系統異常\r請稍後再試",
+        icon: "error",
+        confirmButtonText: "確認",
+      });
       throw e;
     });
 };
@@ -52,10 +63,15 @@ const createProduct = (req) => {
     data: req,
   })
     .then((res) => {
-      //console.log(res.data.rtnMsg);
+      console.log(res.data.rtnMsg);
       return res.data.rtnMsg;
     })
     .catch((e) => {
+      Swal.fire({
+        title: "系統異常\r請稍後再試",
+        icon: "error",
+        confirmButtonText: "確認",
+      });
       throw e;
     });
 };
@@ -84,6 +100,12 @@ const updateProduct = (req) => {
       return res.data.rtnMsg;
     })
     .catch((e) => {
+      Swal.fire({
+        title: "系統異常\r請稍後再試",
+        icon: "error",
+        confirmButtonText: "確認",
+      });
+      s;
       throw e;
     });
 };
@@ -97,6 +119,11 @@ const getStore = (id) => {
       return res.data;
     })
     .catch((e) => {
+      Swal.fire({
+        title: "系統異常\r請稍後再試",
+        icon: "error",
+        confirmButtonText: "確認",
+      });
       throw e;
     });
 };

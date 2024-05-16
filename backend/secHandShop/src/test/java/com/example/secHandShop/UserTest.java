@@ -29,4 +29,10 @@ public class UserTest {
 			System.out.println("帳號:" + user.getEmail() + "\n密碼:" + user.getPwd());
 		}
 	}
+
+	@Test
+	public void updateAccountTest() {
+		int res = dao.updateAccount(1, "阿扁巴巴大俠", null, null, "0966667777");
+		System.out.println("res:" + res);
+	}
 }

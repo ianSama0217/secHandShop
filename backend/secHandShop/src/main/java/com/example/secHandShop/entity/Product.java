@@ -23,6 +23,9 @@ public class Product {
 	@Column(name = "type")
 	private int type;
 
+	@Column(name = "mime_type")
+	private String mimeType;
+
 	@Column(name = "photo")
 	private byte[] photo;
 
@@ -48,12 +51,13 @@ public class Product {
 		super();
 	}
 
-	public Product(int productId, String name, int type, byte[] photo, int price, int inventory, int sellCount,
-			LocalDateTime updateTime, int state, int sellerId) {
+	public Product(int productId, String name, int type, String mimeType, byte[] photo, int price, int inventory,
+			int sellCount, LocalDateTime updateTime, int state, int sellerId) {
 		super();
 		this.productId = productId;
 		this.name = name;
 		this.type = type;
+		this.mimeType = mimeType;
 		this.photo = photo;
 		this.price = price;
 		this.inventory = inventory;
@@ -85,6 +89,14 @@ public class Product {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public String getMimeType() {
+		return mimeType;
+	}
+
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
 	}
 
 	public byte[] getPhoto() {

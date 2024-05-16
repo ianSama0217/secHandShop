@@ -51,7 +51,9 @@ const loginHandler = async () => {
       });
       break;
     case "SUCCESSFUL":
-      sessionStorage.setItem("user", JSON.stringify(loginRes.user));
+      localStorage.setItem("user", JSON.stringify(loginRes.user));
+      //setUser(loginRes.user);
+
       Swal.fire({
         title: "登入成功",
         text: "點擊確認以跳轉至首頁",

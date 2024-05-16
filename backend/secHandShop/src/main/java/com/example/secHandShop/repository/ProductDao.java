@@ -18,7 +18,7 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 	// 搜尋商品
 	@Query(value = "SELECT * FROM product"//
 			+ " WHERE (:name IS NULL OR name LIKE CONCAT('%', :name, '%'))"//
-			+ " AND (:type IS NULL OR type = :type)"//
+			+ " AND (:type IS NULL OR type IN (:type))"//
 			+ " AND (:lowPrice IS NULL OR price >= :lowPrice)"//
 			+ " AND (:highPrice IS NULL OR price <= :highPrice)" //
 			+ " AND (:id IS NULL OR seller_id != :id)" //
@@ -27,8 +27,9 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 			+ " CASE WHEN :sort IS NULL THEN product_id END DESC,"//
 			+ " CASE WHEN :sort = 'price_asc' THEN price END ASC,"//
 			+ " CASE WHEN :sort = 'price_desc' THEN price END DESC", nativeQuery = true)
-	public List<Product> search(@Param("id") Integer userId, @Param("name") String name, @Param("type") Integer type,
-			@Param("lowPrice") Integer lowPrice, @Param("highPrice") Integer highPrice, @Param("sort") String sort);
+	public List<Product> search(@Param("id") Integer userId, @Param("name") String name,
+			@Param("type") List<Integer> type, @Param("lowPrice") Integer lowPrice,
+			@Param("highPrice") Integer highPrice, @Param("sort") String sort);
 
 	// 將state設定為(-1:移除)
 	@Modifying
@@ -44,14 +45,15 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 	@Query(value = "UPDATE product"//
 			+ " SET name = :name,"//
 			+ " type = :type,"//
+			+ " mime_type = :mime,"//
 			+ " photo = :photo,"//
 			+ " price = :price,"//
 			+ " inventory = :inventory,"//
 			+ " state = :state"//
 			+ " WHERE product_id = :id", nativeQuery = true)
 	public int updateProduct(@Param("id") int productId, @Param("name") String name, @Param("type") int type,
-			@Param("photo") byte[] photo, @Param("price") int price, @Param("inventory") int inventory,
-			@Param("state") int state);
+			@Param("mime") String MimeType, @Param("photo") byte[] photo, @Param("price") int price,
+			@Param("inventory") int inventory, @Param("state") int state);
 
 //使用user_id查詢該使用者的所有商品
 	@Query(value = "SELECT * FROM product"//

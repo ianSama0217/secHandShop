@@ -31,7 +31,7 @@ public class ProductTest {
 
 	@Test
 	public void updateProductTest() {
-		int res = dao.updateProduct(1, "葡萄", 1, null, 299, 50, 1);
+		int res = dao.updateProduct(1, "葡萄", 1, null, null, 299, 50, 1);
 		System.out.println("res: " + res);
 	}
 

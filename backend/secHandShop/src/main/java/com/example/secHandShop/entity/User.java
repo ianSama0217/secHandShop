@@ -21,6 +21,9 @@ public class User {
 	@Column(name = "name")
 	private String name;
 
+	@Column(name = "mime_type")
+	private String mimeType;
+
 	@Column(name = "photo")
 	private byte[] photo;
 
@@ -47,10 +50,11 @@ public class User {
 		this.pwd = pwd;
 	}
 
-	public User(int userId, String name, byte[] photo, String phone, String email, String pwd) {
+	public User(int userId, String name, String mimeType, byte[] photo, String phone, String email, String pwd) {
 		super();
 		this.userId = userId;
 		this.name = name;
+		this.mimeType = mimeType;
 		this.photo = photo;
 		this.phone = phone;
 		this.email = email;
@@ -71,6 +75,14 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getMimeType() {
+		return mimeType;
+	}
+
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
 	}
 
 	public byte[] getPhoto() {
@@ -104,4 +116,5 @@ public class User {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
+
 }

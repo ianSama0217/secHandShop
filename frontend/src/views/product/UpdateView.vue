@@ -6,7 +6,7 @@ import { productApi } from "@/api";
 
 const router = useRouter();
 const { getProduct, updateProduct, deleteProduct } = productApi;
-const userId = JSON.parse(sessionStorage.getItem("user")).userId;
+const userId = JSON.parse(localStorage.getItem("user")).userId;
 const productId = useRoute().params.id;
 const getProductRes = ref({});
 const product = ref({});
@@ -17,6 +17,8 @@ const price = ref(null);
 const state = ref(null);
 const inventory = ref(null);
 const imageSrc = ref(null);
+let mime;
+let base64;
 
 const getProductHandler = async (id) => {
   getProductRes.value = await getProduct(id);
@@ -37,7 +39,8 @@ const getProductHandler = async (id) => {
   price.value = product.value.price;
   state.value = product.value.state;
   inventory.value = product.value.inventory;
-  imageSrc.value = "data:image/png;base64," + product.value.photo;
+  imageSrc.value =
+    "data:" + product.value.mimeType + ";base64," + product.value.photo;
 };
 
 const FileUploadHandler = (event) => {
@@ -53,10 +56,9 @@ const FileUploadHandler = (event) => {
 };
 
 const updateProductHandler = async () => {
-  let photo = imageSrc.value;
-
-  if (photo) {
-    photo = photo.replace("data:image/png;base64,", "");
+  if (imageSrc.value) {
+    mime = imageSrc.value.split(";")[0].split(":")[1];
+    base64 = imageSrc.value.split(",")[1];
   }
 
   let updateProductReq = {
@@ -66,7 +68,8 @@ const updateProductHandler = async () => {
     price: price.value,
     inventory: inventory.value,
     state: state.value,
-    photo: photo,
+    mimeType: mime,
+    photo: base64,
   };
 
   const updateProductRes = await updateProduct(updateProductReq);

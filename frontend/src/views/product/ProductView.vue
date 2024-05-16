@@ -54,7 +54,11 @@ onMounted(() => {
 <template>
   <section class="main">
     <div class="img-container">
-      <img :src="product.photo" :alt="product.name" />
+      <img
+        :src="'data:image/png;base64,' + product.photo"
+        :alt="product.name"
+        :title="product.name"
+      />
     </div>
     <div class="product-info">
       <span class="title">{{ product.name }}</span>
@@ -166,7 +170,8 @@ onMounted(() => {
     width: 30vw;
     height: 30vw;
     margin-right: 1rem;
-    border: 1px solid red;
+    display: flex;
+    align-items: center;
 
     img {
       width: 100%;

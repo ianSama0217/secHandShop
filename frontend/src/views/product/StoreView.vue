@@ -49,7 +49,7 @@ onMounted(() => {
           <storeProductCard
             :productId="item.productId"
             :name="item.name"
-            :photo="'data:image/png;base64,' + item.photo"
+            :photo="'data:' + item.mimeType + ';base64,' + item.photo"
             :inventory="item.inventory"
             :price="item.price"
           ></storeProductCard>

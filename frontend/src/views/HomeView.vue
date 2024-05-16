@@ -8,9 +8,15 @@ const { search } = productApi;
 let userId;
 const productList = ref([]);
 
+const name = ref(null);
+const type = ref(null);
+const lowPrice = ref(null);
+const highPrice = ref(null);
+const sort = ref(null);
+
 const searchHandler = async (name, type, lowPrice, highPrice, sort) => {
-  if (sessionStorage.getItem("user")) {
-    userId = JSON.parse(sessionStorage.getItem("user")).userId;
+  if (localStorage.getItem("user")) {
+    userId = JSON.parse(localStorage.getItem("user")).userId;
   } else {
     userId = null;
   }
@@ -34,18 +40,26 @@ onMounted(() => {
     <searchSidebar></searchSidebar>
     <div class="product-area">
       <div class="searchbar">
-        <input type="search" />
-        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          @keyup.enter="searchHandler(name, type, lowPrice, highPrice, sort)"
+          v-model="name"
+          type="search"
+          placeholder="查詢商品"
+        />
+        <i
+          @click="searchHandler(name, type, lowPrice, highPrice, sort)"
+          class="fa-solid fa-magnifying-glass"
+        ></i>
       </div>
       <div class="card-area">
-        <span class="hint-font" v-if="productList.length == 0"
+        <span class="hint-font" v-if="productList?.length == 0"
           >找不到相關商品 請再次確認</span
         >
         <div v-for="item in productList">
           <productCard
             :productId="item.productId"
             :name="item.name"
-            :photo="'data:image/png;base64,' + item.photo"
+            :photo="'data:' + item.mimeType + ';base64,' + item.photo"
             :price="item.price"
           ></productCard>
         </div>

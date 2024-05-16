@@ -1,5 +1,7 @@
 package com.example.secHandShop.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,7 @@ public class ProductController {
 	@GetMapping(value = "/product")
 	public ProductRes search(@RequestParam(name = "userId", required = false) Integer userId,
 			@RequestParam(name = "name", required = false) String name,
-			@RequestParam(name = "type", required = false) Integer type,
+			@RequestParam(name = "type", required = false) List<Integer> type,
 			@RequestParam(name = "lowPrice", required = false) Integer lowPrice,
 			@RequestParam(name = "highPrice", required = false) Integer highPrice,
 			@RequestParam(name = "sort", required = false) String sort) {

@@ -6,8 +6,7 @@ import { userApi } from "@/api";
 
 const router = useRouter();
 const { logout } = userApi;
-
-const user = JSON.parse(sessionStorage.getItem("user"));
+const user = JSON.parse(localStorage.getItem("user"));
 
 const isDisplay = ref(false);
 
@@ -42,6 +41,10 @@ const turnToLogin = () => {
 const turnToStore = () => {
   router.push({ name: "getStore", params: { id: user.userId } });
 };
+
+const turnToUpdateAccount = () => {
+  router.push({ name: "updateAccount" });
+};
 </script>
 
 <template>
@@ -50,12 +53,14 @@ const turnToStore = () => {
       <i class="fa-brands fa-shopify"></i>
       <span>二手拍賣網</span>
     </div>
+    <!-- 尚未登入顯示畫面 -->
     <div class="login" v-if="!user" @click="turnToLogin()">
       <div class="border">
         <i class="fa-regular fa-circle-user icon"></i>
         <span>會員登入</span>
       </div>
     </div>
+    <!-- 登入後顯示畫面 -->
     <div
       class="user-bar"
       v-if="user"
@@ -72,7 +77,7 @@ const turnToStore = () => {
           <i class="fa-solid fa-store icon-link"></i>
           <span class="f-base">我的賣場</span>
         </div>
-        <div class="link">
+        <div class="link" @click="turnToUpdateAccount()">
           <i class="fa-solid fa-gear icon-link"></i>
           <span class="f-base">帳號設定</span>
         </div>

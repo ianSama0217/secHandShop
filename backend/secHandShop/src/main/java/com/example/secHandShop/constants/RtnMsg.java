@@ -16,6 +16,8 @@ public enum RtnMsg {
 	ACCOUNT_NOT_FOUND(400, "Account not found!"), //
 	PASSWORD_ERROR(400, "Password error!"), //
 	LOGIN_ERROR(500, "Login error!"), //
+	// 修改使用者帳號資料
+	UPDATE_ACCOUNT_ERROR(500, "Update account error!"),//
 	// 搜尋商品
 	// 取得商品資料
 	PRODUCT_NOT_FOUND(400, "Product not found!"), //

@@ -25,8 +25,10 @@ public class ProductServiceimpl implements ProductService {
 	@Autowired
 	private UserDao userDao;
 
-	private boolean checkProduct(String name, int type, byte[] photo, int price, int inventory, int state) {
-		if (!StringUtils.hasText(name) || photo == null || type == -1 || price < 0 || inventory < 0 || state == -1) {
+	private boolean checkProduct(String name, int type, String mimeType, byte[] photo, int price, int inventory,
+			int state) {
+		if (!StringUtils.hasText(name) || !StringUtils.hasText(mimeType) || photo == null || type == -1 || price < 0
+				|| inventory < 0 || state == -1) {
 			return true;
 		}
 
@@ -34,7 +36,9 @@ public class ProductServiceimpl implements ProductService {
 	}
 
 	@Override
-	public ProductRes search(Integer userId, String name, Integer type, Integer lowPrice, Integer highPrice, String sort) {
+	public ProductRes search(Integer userId, String name,
+			List<Integer> type, Integer lowPrice, Integer highPrice,
+			String sort) {
 		List<Product> productList = productDao.search(userId, name, type, lowPrice, highPrice, sort);
 		return new ProductRes(RtnMsg.SUCCESSFUL, productList);
 	}
@@ -53,8 +57,8 @@ public class ProductServiceimpl implements ProductService {
 
 	@Override
 	public BasicRes create(Product product) {
-		if (checkProduct(product.getName(), product.getType(), product.getPhoto(), product.getPrice(),
-				product.getInventory(), product.getState())) {
+		if (checkProduct(product.getName(), product.getType(), product.getMimeType(), product.getPhoto(),
+				product.getPrice(), product.getInventory(), product.getState())) {
 			return new BasicRes(RtnMsg.PARAM_ERROR);
 		}
 
@@ -84,14 +88,15 @@ public class ProductServiceimpl implements ProductService {
 	@Override
 	public BasicRes update(Product product) {
 		// TODO 若商品訂單位未完成無法更改狀態
-		if (checkProduct(product.getName(), product.getType(), product.getPhoto(), product.getPrice(),
-				product.getInventory(), product.getState())) {
+		if (checkProduct(product.getName(), product.getType(), product.getMimeType(), product.getPhoto(),
+				product.getPrice(), product.getInventory(), product.getState())) {
 			return new BasicRes(RtnMsg.PARAM_ERROR);
 		}
 
 		try {
-			productDao.updateProduct(product.getProductId(), product.getName(), product.getType(), product.getPhoto(),
-					product.getPrice(), product.getInventory(), product.getState());
+			productDao.updateProduct(product.getProductId(), product.getName(), product.getType(),
+					product.getMimeType(), product.getPhoto(), product.getPrice(), product.getInventory(),
+					product.getState());
 		} catch (Exception e) {
 			return new BasicRes(RtnMsg.UPDATE_PRODUCT_ERROR);
 		}
