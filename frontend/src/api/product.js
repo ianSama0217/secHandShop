@@ -3,24 +3,29 @@ import Swal from "sweetalert2";
 
 const search = (userId, name, type, lowPrice, highPrice, sort) => {
   let url = `http://localhost:8080/product?`;
+  const params = [];
   if (userId) {
-    url += `userId=${userId}`;
+    params.push(`userId=${userId}`);
   }
   if (name) {
-    url += `&name=${name}`;
+    params.push(`name=${name}`);
   }
   if (type) {
-    url += `&type=${type}`;
+    params.push(`type=${type}`);
   }
   if (lowPrice) {
-    url += `&lowPrice=${lowPrice}`;
+    params.push(`lowPrice=${lowPrice}`);
   }
   if (highPrice) {
-    url += `&highPrice=${highPrice}`;
+    params.push(`highPrice=${highPrice}`);
   }
   if (sort) {
-    url += `&sort=${sort}`;
+    params.push(`sort=${sort}`);
   }
+
+  url += params.join("&");
+  console.log("URL:" + url);
+
   return axios
     .get(url)
     .then((res) => {

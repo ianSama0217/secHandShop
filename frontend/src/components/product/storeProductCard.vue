@@ -77,7 +77,7 @@ const turnToProductUpdate = (id) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 0.5rem;
+    padding: 0.3rem 0.5rem;
     background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(2px);
     opacity: 1;

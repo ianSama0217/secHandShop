@@ -23,7 +23,6 @@
 .sidebar {
   list-style-type: none;
   margin: 1rem;
-  border: 1px solid red;
   width: 15vw;
   height: 80vh;
   display: flex;

@@ -1,14 +1,12 @@
 package com.example.secHandShop.service.ifs;
 
-import java.util.List;
-
 import com.example.secHandShop.entity.Product;
 import com.example.secHandShop.vo.BasicRes;
 import com.example.secHandShop.vo.ProductRes;
 
 public interface ProductService {
 
-	public ProductRes search(Integer userId, String name, List<Integer> type, Integer lowPrice, Integer highPrice,
+	public ProductRes search(Integer userId, String name, Integer type, Integer lowPrice, Integer highPrice,
 			String sort);
 
 	public ProductRes getProduct(int productId);

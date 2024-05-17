@@ -17,7 +17,7 @@ public class ProductTest {
 
 	@Test
 	public void searchTest() {
-		List<Product> res = dao.search(2, null, null, null, null, null);
+		List<Product> res = dao.search(3, null, null, null, null, null);
 		for (Product p : res) {
 			System.out.println("name: " + p.getName());
 		}

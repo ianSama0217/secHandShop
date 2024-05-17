@@ -18,18 +18,18 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 	// 搜尋商品
 	@Query(value = "SELECT * FROM product"//
 			+ " WHERE (:name IS NULL OR name LIKE CONCAT('%', :name, '%'))"//
-			+ " AND (:type IS NULL OR type IN (:type))"//
+			+ " AND (:type IS NULL OR type = :type)"//
 			+ " AND (:lowPrice IS NULL OR price >= :lowPrice)"//
 			+ " AND (:highPrice IS NULL OR price <= :highPrice)" //
 			+ " AND (:id IS NULL OR seller_id != :id)" //
 			+ " AND state != -1" //
+			+ " AND state != 0" //
 			+ " ORDER BY"//
 			+ " CASE WHEN :sort IS NULL THEN product_id END DESC,"//
 			+ " CASE WHEN :sort = 'price_asc' THEN price END ASC,"//
 			+ " CASE WHEN :sort = 'price_desc' THEN price END DESC", nativeQuery = true)
-	public List<Product> search(@Param("id") Integer userId, @Param("name") String name,
-			@Param("type") List<Integer> type, @Param("lowPrice") Integer lowPrice,
-			@Param("highPrice") Integer highPrice, @Param("sort") String sort);
+	public List<Product> search(@Param("id") Integer userId, @Param("name") String name, @Param("type") Integer type,
+			@Param("lowPrice") Integer lowPrice, @Param("highPrice") Integer highPrice, @Param("sort") String sort);
 
 	// 將state設定為(-1:移除)
 	@Modifying

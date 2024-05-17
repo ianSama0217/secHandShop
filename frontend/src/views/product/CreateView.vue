@@ -1,11 +1,15 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useProductStore } from "@/stores/product.js";
 import Swal from "sweetalert2";
 import { productApi } from "@/api";
 
 const router = useRouter();
 const { createProduct } = productApi;
+const productStore = useProductStore();
+const { typeOption, stateOption } = storeToRefs(productStore);
 
 const name = ref(null);
 const type = ref(null);
@@ -113,10 +117,9 @@ const turnToBack = () => {
         <i class="fa-solid fa-tag input-icon"></i>
         <select v-model.number="type">
           <option value="null" disabled>請選擇商品類型</option>
-          <option :value="1">食品</option>
-          <option :value="2">玩具</option>
-          <option :value="3">書籍</option>
-          <option :value="999">其他</option>
+          <option v-for="item in typeOption" :value="item.key">
+            {{ item.value }}
+          </option>
         </select>
       </div>
       <div class="inputbar">
@@ -139,9 +142,9 @@ const turnToBack = () => {
         <i class="fa-solid fa-paperclip input-icon"></i>
         <select v-model.number="state">
           <option value="null" disabled>請選擇商品狀態</option>
-          <option :value="0">未公開</option>
-          <option :value="1">一般販售</option>
-          <option :value="2">預售</option>
+          <option v-for="item in stateOption" :value="item.key">
+            {{ item.value }}
+          </option>
         </select>
       </div>
       <div class="btn-bar">

@@ -1,6 +1,8 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useProductStore } from "@/stores/product.js";
 import Swal from "sweetalert2";
 import { productApi } from "@/api";
 
@@ -10,6 +12,8 @@ const userId = JSON.parse(localStorage.getItem("user")).userId;
 const productId = useRoute().params.id;
 const getProductRes = ref({});
 const product = ref({});
+const productStore = useProductStore();
+const { typeOption, stateOption } = storeToRefs(productStore);
 
 const name = ref(null);
 const type = ref(null);
@@ -165,10 +169,9 @@ onMounted(() => {
         <i class="fa-solid fa-tag input-icon"></i>
         <select v-model="type">
           <option value="null" disabled>請選擇商品類型</option>
-          <option value="1">食品</option>
-          <option value="2">玩具</option>
-          <option value="3">書籍</option>
-          <option value="999">其他</option>
+          <option v-for="item in typeOption" :value="item.key">
+            {{ item.value }}
+          </option>
         </select>
       </div>
       <div class="inputbar">
@@ -191,9 +194,9 @@ onMounted(() => {
         <i class="fa-solid fa-paperclip input-icon"></i>
         <select v-model="state">
           <option value="null" disabled>請選擇商品狀態</option>
-          <option value="0">未公開</option>
-          <option value="1">一般販售</option>
-          <option value="2">預售</option>
+          <option v-for="item in stateOption" :value="item.key">
+            {{ item.value }}
+          </option>
         </select>
       </div>
       <div class="btn-bar">

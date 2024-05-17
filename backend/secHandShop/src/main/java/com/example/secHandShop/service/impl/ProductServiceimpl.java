@@ -36,8 +36,7 @@ public class ProductServiceimpl implements ProductService {
 	}
 
 	@Override
-	public ProductRes search(Integer userId, String name,
-			List<Integer> type, Integer lowPrice, Integer highPrice,
+	public ProductRes search(Integer userId, String name, Integer type, Integer lowPrice, Integer highPrice,
 			String sort) {
 		List<Product> productList = productDao.search(userId, name, type, lowPrice, highPrice, sort);
 		return new ProductRes(RtnMsg.SUCCESSFUL, productList);
