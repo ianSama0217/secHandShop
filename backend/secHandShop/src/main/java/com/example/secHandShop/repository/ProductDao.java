@@ -55,7 +55,7 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 			@Param("mime") String MimeType, @Param("photo") byte[] photo, @Param("price") int price,
 			@Param("inventory") int inventory, @Param("state") int state);
 
-//使用user_id查詢該使用者的所有商品
+	//使用user_id查詢該使用者的所有商品
 	@Query(value = "SELECT * FROM product"//
 			+ " WHERE seller_id = :id"//
 			+ " AND state != -1" //

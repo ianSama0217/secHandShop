@@ -17,7 +17,7 @@ public enum RtnMsg {
 	PASSWORD_ERROR(400, "Password error!"), //
 	LOGIN_ERROR(500, "Login error!"), //
 	// 修改使用者帳號資料
-	UPDATE_ACCOUNT_ERROR(500, "Update account error!"),//
+	UPDATE_ACCOUNT_ERROR(500, "Update account error!"), //
 	// 搜尋商品
 	// 取得商品資料
 	PRODUCT_NOT_FOUND(400, "Product not found!"), //
@@ -29,6 +29,15 @@ public enum RtnMsg {
 	UPDATE_PRODUCT_ERROR(500, "Update product error!"), //
 	// 取得店家商品資料
 	STORE_NOT_FOUND(400, "Store not found!"), //
+	// 新增購物車
+	QUANTITY_ERROR(400, "Quantity error!"), //
+	PRODUCT_NOT_PURCHASE(400, "Product not purchase!"), //
+	CREATE_CART_ERROR(500, "Create cart error!"), //
+	// 刪除購物車
+	CART_NOT_FOUND(400, "Cart not found!"), //
+	DELETE_CART_ERROR(500, "Delete cart error!"), //
+	// 更新購物車
+	UPDATE_CART_ERROR(500, "Update cart error!"), //
 	;
 
 	private int stateCode;
