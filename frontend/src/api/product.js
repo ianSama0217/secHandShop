@@ -1,6 +1,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
+//搜尋指定條件商品
 const search = (userId, name, type, lowPrice, highPrice, sort) => {
   let url = `http://localhost:8080/product?`;
   const params = [];
@@ -24,7 +25,6 @@ const search = (userId, name, type, lowPrice, highPrice, sort) => {
   }
 
   url += params.join("&");
-  console.log("URL:" + url);
 
   return axios
     .get(url)
@@ -86,9 +86,14 @@ const deleteProduct = (id) => {
   return axios
     .patch(`http://localhost:8080/product/delete?id=${id}`)
     .then((res) => {
-      console.log(res.data.rtnMsg);
+      //console.log(res.data.rtnMsg);
     })
     .catch((e) => {
+      Swal.fire({
+        title: "系統異常\r請稍後再試",
+        icon: "error",
+        confirmButtonText: "確認",
+      });
       throw e;
     });
 };

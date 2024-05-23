@@ -3,22 +3,21 @@ package com.example.secHandShop.vo;
 import java.util.List;
 
 import com.example.secHandShop.constants.RtnMsg;
-import com.example.secHandShop.entity.Cart;
 
 public class CartRes extends BasicRes {
 
-	private List<Cart> cartList;
+	private List<CartProductVo> cartList;
 
 	public CartRes(RtnMsg rtnMsg) {
 		super(rtnMsg);
 	}
 
-	public CartRes(RtnMsg rtnMsg, List<Cart> cartList) {
+	public CartRes(RtnMsg rtnMsg, List<CartProductVo> cartList) {
 		super(rtnMsg);
 		this.cartList = cartList;
 	}
 
-	public List<Cart> getCartList() {
+	public List<CartProductVo> getCartList() {
 		return cartList;
 	}
 

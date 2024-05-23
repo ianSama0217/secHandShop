@@ -3,13 +3,12 @@ import { RouterLink } from "vue-router";
 
 const props = defineProps({
   icon: String,
-  link: String,
 });
 </script>
 
 <template>
   <div class="link-btn">
-    <RouterLink :to="link" class="link-circle">
+    <RouterLink class="link-circle">
       <i :class="icon"></i>
     </RouterLink>
   </div>

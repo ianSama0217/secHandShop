@@ -126,15 +126,12 @@ onMounted(() => {
             :name="item.name"
             :photo="'data:' + item.mimeType + ';base64,' + item.photo"
             :price="item.price"
+            :sellCount="item.sellCount"
           ></productCard>
         </div>
       </div>
     </div>
   </section>
-
-  <div v-if="!userId">
-    <img src="../../public/iconImg/add-img.png" alt="" class="advertise" />
-  </div>
 </template>
 
 <style scoped lang="scss">
@@ -147,7 +144,7 @@ onMounted(() => {
     margin: 1rem;
     padding: 0 0.5rem;
     width: 15vw;
-    min-height: 80vh;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -248,13 +245,5 @@ onMounted(() => {
       align-items: center;
     }
   }
-}
-
-.advertise {
-  position: fixed;
-  right: 2%;
-  top: 12%;
-  width: 10vw;
-  height: auto;
 }
 </style>

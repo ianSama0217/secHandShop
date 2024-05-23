@@ -30,6 +30,7 @@ public enum RtnMsg {
 	// 取得店家商品資料
 	STORE_NOT_FOUND(400, "Store not found!"), //
 	// 新增購物車
+	PRODUCT_ALREADY_EXISTS(400, "Product already exists!"), //
 	QUANTITY_ERROR(400, "Quantity error!"), //
 	PRODUCT_NOT_PURCHASE(400, "Product not purchase!"), //
 	CREATE_CART_ERROR(500, "Create cart error!"), //

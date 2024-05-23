@@ -2,14 +2,74 @@
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import { productApi } from "@/api";
+import { productApi, cartApi } from "@/api";
 
 const router = useRouter();
 const { getProduct } = productApi;
+const { createCart } = cartApi;
 const getProductRes = ref({});
 const product = ref({});
+const createCartRes = ref("");
 
 const buyQuantity = ref(1);
+
+const createCartHandler = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    Swal.fire({
+      title: "請先登入",
+      icon: "warning",
+      confirmButtonText: "確認",
+    });
+    return;
+  }
+
+  let createCartReq = {
+    quantity: buyQuantity.value,
+    userId: user.userId,
+    productId: product.value.productId,
+  };
+
+  createCartRes.value = await createCart(createCartReq);
+
+  switch (createCartRes.value) {
+    case "ACCOUNT_NOT_FOUND":
+      Swal.fire({
+        title: "帳號不存在",
+        icon: "error",
+        confirmButtonText: "確認",
+      });
+      break;
+    case "PRODUCT_ALREADY_EXISTS":
+      Swal.fire({
+        title: "商品已加入購物車內",
+        icon: "warning",
+        confirmButtonText: "確認",
+      });
+      break;
+    case "QUANTITY_ERROR":
+      Swal.fire({
+        title: "商品庫存不足",
+        icon: "warning",
+        confirmButtonText: "確認",
+      });
+      break;
+    case "PRODUCT_NOT_PURCHASE":
+      Swal.fire({
+        title: "商品狀態異常",
+        icon: "error",
+        confirmButtonText: "確認",
+      });
+      break;
+    case "SUCCESSFUL":
+      Swal.fire({
+        title: "將商品加入購物車",
+        icon: "success",
+        confirmButtonText: "確認",
+      });
+      break;
+  }
+};
 
 const getProductHandler = async (id) => {
   getProductRes.value = await getProduct(id);
@@ -27,15 +87,28 @@ const getProductHandler = async (id) => {
   product.value = getProductRes.value.product;
 };
 
+const inputHandler = () => {
+  if (buyQuantity.value >= product.value.inventory) {
+    buyQuantity.value = product.value.inventory;
+    return;
+  }
+  if (buyQuantity.value < 1) {
+    buyQuantity.value = 1;
+    return;
+  }
+};
+
 const addBuyQuantity = () => {
-  if (buyQuantity.value == product.value.inventory) {
+  if (buyQuantity.value >= product.value.inventory) {
+    buyQuantity.value = product.value.inventory;
     return;
   }
   buyQuantity.value++;
 };
 
 const reduceBuyQuantity = () => {
-  if (buyQuantity.value == 1) {
+  if (buyQuantity.value <= 1) {
+    buyQuantity.value = 1;
     return;
   }
   buyQuantity.value--;
@@ -138,7 +211,12 @@ onMounted(() => {
           <button type="button" class="add" @click="reduceBuyQuantity()">
             <i class="fa-solid fa-minus"></i>
           </button>
-          <input type="number" min="1" v-model="buyQuantity" />
+          <input
+            @input="inputHandler()"
+            type="number"
+            min="1"
+            v-model="buyQuantity"
+          />
           <button type="button" class="reduce" @click="addBuyQuantity()">
             <i class="fa-solid fa-plus"></i>
           </button>
@@ -150,7 +228,13 @@ onMounted(() => {
           返回前頁
         </button>
         <button type="button" class="base-btn buy">立即購買</button>
-        <button type="button" class="base-btn add-cart">加入購物車</button>
+        <button
+          @click="createCartHandler()"
+          type="button"
+          class="base-btn add-cart"
+        >
+          加入購物車
+        </button>
         <button type="button" class="base-btn send-msg">
           <i class="fa-regular fa-comment-dots icon-link"></i>詢問商品
         </button>
@@ -161,9 +245,9 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .main {
-  height: 90vh;
-  padding: 1rem 10rem 1rem 5rem;
   display: flex;
+  height: 90vh;
+  padding: 3rem 10rem 1rem 5rem;
 
   .img-container {
     align-self: center;

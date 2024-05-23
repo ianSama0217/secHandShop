@@ -12,6 +12,7 @@ import com.example.secHandShop.repository.UserDao;
 import com.example.secHandShop.service.ifs.CartService;
 import com.example.secHandShop.service.ifs.ProductService;
 import com.example.secHandShop.vo.BasicRes;
+import com.example.secHandShop.vo.CartProductVo;
 import com.example.secHandShop.vo.CartRes;
 import com.example.secHandShop.vo.ProductRes;
 import com.example.secHandShop.vo.UpdateCartReq;
@@ -59,6 +60,10 @@ public class CartServiceimpl implements CartService {
 			return new BasicRes(RtnMsg.ACCOUNT_NOT_FOUND);
 		}
 
+		if (cartDao.existsByUserIdAndProductId(cart.getUserId(), cart.getProductId())) {
+			return new BasicRes(RtnMsg.PRODUCT_ALREADY_EXISTS);
+		}
+
 		int inventory = res.getProduct().getInventory();
 		int state = res.getProduct().getState();
 
@@ -72,7 +77,7 @@ public class CartServiceimpl implements CartService {
 
 		int price = res.getProduct().getPrice();
 
-		cart.setPrice(price);
+		cart.setPrice(cart.getQuantity() * price);
 		cart.setAddTime(LocalDateTime.now());
 
 		try {
@@ -101,15 +106,15 @@ public class CartServiceimpl implements CartService {
 
 	@Override
 	public BasicRes update(UpdateCartReq req) {
-	
+
 		Optional<Cart> op = cartDao.findById(req.getCartId());
-		
-		if(op.isEmpty()) {
+
+		if (op.isEmpty()) {
 			return new BasicRes(RtnMsg.CART_NOT_FOUND);
 		}
-		
-		Cart cart = op.get(); 
-		
+
+		Cart cart = op.get();
+
 		ProductRes res = productService.getProduct(cart.getProductId());
 		if (!res.rtnMsg.getMessage().equals("Successful!")) {
 			return new BasicRes(res.rtnMsg);
@@ -130,8 +135,10 @@ public class CartServiceimpl implements CartService {
 			return new BasicRes(RtnMsg.PRODUCT_NOT_PURCHASE);
 		}
 
+		int price = req.getQuantity() * res.getProduct().getPrice();
+
 		try {
-			cartDao.updateCart(req.getCartId(), req.getQuantity());
+			cartDao.updateCart(req.getCartId(), req.getQuantity(), price);
 		} catch (Exception e) {
 			return new BasicRes(RtnMsg.UPDATE_CART_ERROR);
 		}
@@ -145,7 +152,7 @@ public class CartServiceimpl implements CartService {
 			return new CartRes(RtnMsg.ACCOUNT_NOT_FOUND);
 		}
 
-		List<Cart> cartList = cartDao.getCart(userId);
+		List<CartProductVo> cartList = cartDao.getCart(userId);
 		return new CartRes(RtnMsg.SUCCESSFUL, cartList);
 	}
 }

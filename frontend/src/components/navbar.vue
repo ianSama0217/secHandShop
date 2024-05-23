@@ -6,12 +6,13 @@ import { userApi } from "@/api";
 
 const router = useRouter();
 const { logout } = userApi;
-const user = JSON.parse(localStorage.getItem("user"));
+const user = ref(JSON.parse(localStorage.getItem("user")));
 
 const isDisplay = ref(false);
 
 const logoutHandler = () => {
   logout();
+  user.value = null;
   Swal.fire({
     title: "登出成功",
     text: "點擊確認以跳轉至首頁",
@@ -39,7 +40,7 @@ const turnToLogin = () => {
 };
 
 const turnToStore = () => {
-  router.push({ name: "getStore", params: { id: user.userId } });
+  router.push({ name: "getStore", params: { id: user.value.userId } });
 };
 
 const turnToUpdateAccount = () => {

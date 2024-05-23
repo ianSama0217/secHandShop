@@ -7,6 +7,7 @@ const props = defineProps({
   name: String,
   photo: String,
   price: Number,
+  sellCount: Number,
 });
 
 const turnToProduct = (id) => {
@@ -22,7 +23,10 @@ const turnToProduct = (id) => {
       <i class="fa-solid fa-dollar-sign"
         ><span class="bold f-base">{{ price }}</span></i
       >
-      <i class="fa-solid fa-cart-shopping f-base" title="加入購物車"></i>
+      <div>
+        <i class="fa-solid fa-bag-shopping icon-link" title="販售數量"></i
+        ><span class="f-base bold">{{ sellCount }}</span>
+      </div>
     </div>
   </section>
 </template>
@@ -75,15 +79,6 @@ const turnToProduct = (id) => {
     backdrop-filter: blur(2px);
     opacity: 1;
     border-radius: 8px;
-
-    .fa-cart-shopping {
-      z-index: 10;
-      transition: all 0.3s ease;
-      &:hover {
-        scale: 1.15;
-        color: #777;
-      }
-    }
   }
 }
 </style>

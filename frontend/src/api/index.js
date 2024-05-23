@@ -1,4 +1,5 @@
 import userApi from "./user.js";
 import productApi from "./product.js";
+import cartApi from "./cart.js";
 
-export { userApi, productApi };
+export { userApi, productApi, cartApi };

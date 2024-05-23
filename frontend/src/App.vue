@@ -1,9 +1,22 @@
 <script setup>
-import { RouterView } from "vue-router";
+import { RouterView, useRouter } from "vue-router";
 import navbar from "./components/navbar.vue";
 import linkBtn from "./components/linkBtn.vue";
 
 const user = JSON.parse(localStorage.getItem("user"));
+const router = useRouter();
+
+const turnToCart = (id) => {
+  router.push({ name: "getCart", params: { id: id } });
+};
+
+const turnToNotify = () => {
+  console.log("點擊前往通知...");
+};
+
+const turnToMessage = () => {
+  console.log("點擊前往訊息...");
+};
 
 const turnToTop = () => {
   window.scroll({ top: 0, behavior: "smooth" });
@@ -14,9 +27,18 @@ const turnToTop = () => {
   <navbar></navbar>
   <RouterView />
   <div v-if="user" class="link-btn-area">
-    <linkBtn link="/" icon="fa-solid fa-cart-shopping icon-btn"></linkBtn>
-    <linkBtn link="/" icon="fa-regular fa-bell icon-btn"></linkBtn>
-    <linkBtn link="/" icon="fa-regular fa-comment-dots icon-btn"></linkBtn>
+    <linkBtn
+      @click="turnToCart(user.userId)"
+      icon="fa-solid fa-cart-shopping icon-btn"
+    ></linkBtn>
+    <linkBtn
+      @click="turnToNotify()"
+      icon="fa-regular fa-bell icon-btn"
+    ></linkBtn>
+    <linkBtn
+      @click="turnToMessage()"
+      icon="fa-regular fa-comment-dots icon-btn"
+    ></linkBtn>
     <linkBtn
       @click="turnToTop()"
       icon="fa-solid fa-angle-up icon-btn"
