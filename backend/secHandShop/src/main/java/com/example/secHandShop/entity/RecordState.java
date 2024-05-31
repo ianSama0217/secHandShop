@@ -24,13 +24,13 @@ public class RecordState {
 	private LocalDateTime stateTime;
 
 	@Column(name = "record_id")
-	private String recordId;
+	private int recordId;
 
 	public RecordState() {
 		super();
 	}
 
-	public RecordState(int recordStateId, int state, LocalDateTime stateTime, String recordId) {
+	public RecordState(int recordStateId, int state, LocalDateTime stateTime, int recordId) {
 		super();
 		this.recordStateId = recordStateId;
 		this.state = state;
@@ -62,11 +62,11 @@ public class RecordState {
 		this.stateTime = stateTime;
 	}
 
-	public String getRecordId() {
+	public int getRecordId() {
 		return recordId;
 	}
 
-	public void setRecordId(String recordId) {
+	public void setRecordId(int recordId) {
 		this.recordId = recordId;
 	}
 

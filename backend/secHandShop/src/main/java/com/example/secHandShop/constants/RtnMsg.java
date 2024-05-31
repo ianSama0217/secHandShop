@@ -39,6 +39,13 @@ public enum RtnMsg {
 	DELETE_CART_ERROR(500, "Delete cart error!"), //
 	// 更新購物車
 	UPDATE_CART_ERROR(500, "Update cart error!"), //
+	// 新增訂單
+	CREATE_RECORD_ERROR(500, "Create record error!"), //
+	// 更新訂單狀態
+	RECORD_NOT_FOUND(400, "Record not found!"), //
+	CANCEL_RECORD_ERROR(500, "Cancel record error!"), //
+	SHIP_RECORD_ERROR(500, "Ship record error!"), //
+	RECEIVED_RECORD_ERROR(500, "Received record error!"),//
 	;
 
 	private int stateCode;

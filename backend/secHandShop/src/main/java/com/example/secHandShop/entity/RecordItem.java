@@ -23,7 +23,7 @@ public class RecordItem {
 	private int price;
 
 	@Column(name = "record_id")
-	private String recordId;
+	private int recordId;
 
 	@Column(name = "product_id")
 	private int productId;
@@ -32,7 +32,7 @@ public class RecordItem {
 		super();
 	}
 
-	public RecordItem(int recordItemId, int quantity, int price, String recordId, int productId) {
+	public RecordItem(int recordItemId, int quantity, int price, int recordId, int productId) {
 		super();
 		this.recordItemId = recordItemId;
 		this.quantity = quantity;
@@ -65,11 +65,11 @@ public class RecordItem {
 		this.price = price;
 	}
 
-	public String getRecordId() {
+	public int getRecordId() {
 		return recordId;
 	}
 
-	public void setRecordId(String recordId) {
+	public void setRecordId(int recordId) {
 		this.recordId = recordId;
 	}
 
